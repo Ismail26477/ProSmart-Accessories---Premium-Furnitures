@@ -22,11 +22,7 @@ const Navbar = () => {
 
   // Lock body scroll when menu is open
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
@@ -44,17 +40,17 @@ const Navbar = () => {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border/50"
-            : "bg-background/80 backdrop-blur-sm md:bg-transparent"
+            : "bg-transparent"
         }`}
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo - always visible */}
+            {/* Logo */}
             <a href="#home" className="flex-shrink-0 z-50 relative">
               <span className="font-display text-xl md:text-2xl font-bold gold-gradient-text">
                 ProSmart
               </span>
-              <span className="block text-[10px] md:text-xs font-body tracking-[0.25em] uppercase text-muted-foreground -mt-1">
+              <span className="block text-[10px] md:text-xs font-body tracking-[0.25em] uppercase text-white -mt-1">
                 Accessories
               </span>
             </a>
@@ -65,33 +61,37 @@ const Navbar = () => {
                 <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
-                  className="font-body text-sm font-medium text-foreground/80 hover:text-gold transition-colors relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gold after:transition-all after:duration-300 hover:after:w-full"
+                  className={`font-body text-sm font-medium transition-colors relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gold after:transition-all after:duration-300 hover:after:w-full ${
+                    scrolled
+                      ? "text-foreground/80 hover:text-gold"
+                      : "text-white hover:text-gold"
+                  }`}
                 >
                   {link.label}
                 </button>
               ))}
             </div>
 
-            {/* Right side: Phone + Hamburger on mobile, CTA on desktop */}
+            {/* Right side */}
             <div className="flex items-center gap-2">
               <a
                 href="tel:+917741913386"
                 className="md:hidden p-2 rounded-lg transition-colors hover:bg-secondary"
-                aria-label="Call us"
               >
                 <Phone className="w-5 h-5 text-gold" />
               </a>
+
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="md:hidden p-2 rounded-lg transition-colors hover:bg-secondary z-50 relative"
-                aria-label="Toggle menu"
               >
                 {isOpen ? (
-                  <X className="w-6 h-6 text-foreground" />
+                  <X className="w-6 h-6 text-white" />
                 ) : (
-                  <Menu className="w-6 h-6 text-foreground" />
+                  <Menu className="w-6 h-6 text-white" />
                 )}
               </button>
+
               <a
                 href="tel:+917741913386"
                 className="hidden md:flex items-center gap-2 gold-btn text-xs"
@@ -104,7 +104,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Full-screen mobile menu overlay */}
+      {/* Mobile menu LEFT side */}
       <div
         className={`fixed inset-0 z-40 md:hidden transition-all duration-500 ${
           isOpen ? "visible" : "invisible"
@@ -118,10 +118,10 @@ const Navbar = () => {
           onClick={() => setIsOpen(false)}
         />
 
-        {/* Menu panel */}
+        {/* Menu panel from LEFT */}
         <div
-          className={`absolute inset-y-0 right-0 w-full max-w-sm bg-background shadow-2xl transition-transform duration-500 ease-out ${
-            isOpen ? "translate-x-0" : "translate-x-full"
+          className={`absolute inset-y-0 left-0 w-full max-w-sm bg-background shadow-2xl transition-transform duration-500 ease-out ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <div className="flex flex-col justify-center h-full px-8 py-20">
@@ -133,7 +133,7 @@ const Navbar = () => {
                   className={`block w-full text-left py-4 px-4 font-display text-2xl font-semibold text-foreground hover:text-gold hover:bg-gold/5 rounded-xl transition-all duration-300 ${
                     isOpen
                       ? "opacity-100 translate-x-0"
-                      : "opacity-0 translate-x-8"
+                      : "opacity-0 -translate-x-8"
                   }`}
                   style={{
                     transitionDelay: isOpen ? `${index * 80 + 200}ms` : "0ms",
@@ -157,6 +157,7 @@ const Navbar = () => {
                 <Phone className="w-4 h-4 inline mr-2" />
                 +91 77419 13386
               </a>
+
               <a
                 href="https://wa.me/917741913386?text=Hi, I'm interested in your furniture collection"
                 target="_blank"
