@@ -22,7 +22,11 @@ const Navbar = () => {
 
   // Lock body scroll when menu is open
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
     return () => {
       document.body.style.overflow = "";
     };
@@ -40,7 +44,7 @@ const Navbar = () => {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border/50"
-            : "bg-transparent"
+            : "bg-background/80 backdrop-blur-sm md:bg-transparent"
         }`}
       >
         <div className="container mx-auto px-4 md:px-6">
@@ -50,7 +54,7 @@ const Navbar = () => {
               <span className="font-display text-xl md:text-2xl font-bold gold-gradient-text">
                 ProSmart
               </span>
-              <span className="block text-[10px] md:text-xs font-body tracking-[0.25em] uppercase text-white -mt-1">
+              <span className="block text-[10px] md:text-xs font-body tracking-[0.25em] uppercase text-muted-foreground -mt-1">
                 Accessories
               </span>
             </a>
@@ -61,11 +65,7 @@ const Navbar = () => {
                 <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
-                  className={`font-body text-sm font-medium transition-colors relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gold after:transition-all after:duration-300 hover:after:w-full ${
-                    scrolled
-                      ? "text-foreground/80 hover:text-gold"
-                      : "text-white hover:text-gold"
-                  }`}
+                  className="font-body text-sm font-medium text-foreground/80 hover:text-gold transition-colors relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gold after:transition-all after:duration-300 hover:after:w-full"
                 >
                   {link.label}
                 </button>
@@ -86,9 +86,9 @@ const Navbar = () => {
                 className="md:hidden p-2 rounded-lg transition-colors hover:bg-secondary z-50 relative"
               >
                 {isOpen ? (
-                  <X className="w-6 h-6 text-white" />
+                  <X className="w-6 h-6 text-foreground" />
                 ) : (
-                  <Menu className="w-6 h-6 text-white" />
+                  <Menu className="w-6 h-6 text-foreground" />
                 )}
               </button>
 
